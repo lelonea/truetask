@@ -3,6 +3,13 @@ from parser import *
 
 
 def save_imgs(url_ind):
+    """
+    Сохраняет все файлы формата jpg и gif в текущей директории,
+    присваивая им порядковые номера начиная с 1.
+    Видео-файлы пропускает.
+    :param url_ind: индекс ссылки в листе card_urls
+    :return: None
+    """
     card_url = cards_urls[url_ind]
     r2 = requests.get(card_url)
     soup2 = BeautifulSoup(r2.text, 'html.parser')

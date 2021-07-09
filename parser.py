@@ -11,6 +11,11 @@ soup = BeautifulSoup(r.text, 'html.parser')
 
 
 def page_count(b_soup):
+    """
+    Определяет количество страниц с информацией
+    :param b_soup: объект BeautifulSoup
+    :return: Количество страниц в формате int
+    """
     pages = b_soup.find('div', {'id': 'pages'})
     if pages.text == '':
         last_page_find = 1
@@ -30,6 +35,12 @@ cards_urls = []
 
 
 for page_num in range(1, last_page+1):
+    """
+    Проходится по всем страницам с текущими открытками, собирает: 
+    даты в dates,
+    названия праздников в titles,
+    ссылки на открытки в card_urls
+    """
     url = f'https://3d-galleru.ru/archive/cat/kalendar-42/page-{page_num}'
     r1 = requests.get(url)
     soup = BeautifulSoup(r1.text, 'html.parser')
