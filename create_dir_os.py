@@ -1,5 +1,5 @@
 import os
-from parser import *
+from saver import *
 from datetime import datetime
 
 
@@ -50,13 +50,16 @@ def create_date_dir(date_list):
         os.chdir('..')
 
 
-def create_holiday_dir(date_list):
+def create_holiday_dir_with_img(date_list):
     for date_name in date_list:
         for date_ind in index_in_dates(date_name):
             os.chdir(find_month_name(date_name))
             os.chdir(date_name)
             os.mkdir(titles[date_ind])
-            os.chdir('../..')
+            os.chdir(titles[date_ind])
+            save_imgs(date_ind)
+            print('//')
+            os.chdir('../../..')
 
 
 for dates_name in unique_dates:
@@ -65,19 +68,7 @@ for dates_name in unique_dates:
 unique_month = list(set(months))
 
 create_month_dir(unique_month)
-print(unique_dates)
 create_date_dir(unique_dates)
-create_holiday_dir(unique_dates)
+create_holiday_dir_with_img(unique_dates)
 
 
-
-#
-# for month in unique_month:
-#     os.mkdir(month)
-#     os.chdir(month)
-#     for date in unique_dates:
-#         os.mkdir(date)
-#         os.chdir(date)
-#         for date_ind in index_in_dates(date):
-#             os.mkdir(titles[date_ind])
-#
