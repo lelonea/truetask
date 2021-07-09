@@ -30,7 +30,7 @@ cards_urls = []
 
 
 for page_num in range(1, last_page+1):
-    url = f'https://3d-galleru.ru/archive/cat/kalendar-42/page-{page_num}/'
+    url = f'https://3d-galleru.ru/archive/cat/kalendar-42/page-{page_num}'
     r1 = requests.get(url)
     soup = BeautifulSoup(r1.text, 'html.parser')
 

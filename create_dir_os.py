@@ -3,7 +3,8 @@ from saver import *
 from datetime import datetime
 
 
-unique_dates = list(set(dates))
+unique_dates_not_sorted = list(set(dates))
+unique_dates = sorted(unique_dates_not_sorted)
 months = []
 
 RU_MONTH_VALUES = {
@@ -34,8 +35,12 @@ def find_month_name(date_name):
     return format_date.strftime('%B')
 
 
-def index_in_dates(date_name):
+def index_in_img(date_name):
     return [index for index, value in enumerate(dates) if value == date_name]
+
+
+def index_in_dates(date_name):
+    return dates.index(date_name)
 
 
 def create_month_dir(month_list):
@@ -52,14 +57,25 @@ def create_date_dir(date_list):
 
 def create_holiday_dir_with_img(date_list):
     for date_name in date_list:
-        for date_ind in index_in_dates(date_name):
-            os.chdir(find_month_name(date_name))
-            os.chdir(date_name)
-            os.mkdir(titles[date_ind])
-            os.chdir(titles[date_ind])
-            save_imgs(date_ind)
+        os.chdir(find_month_name(date_name))
+        os.chdir(date_name)
+        for holiday in index_in_img(date_name):
+            os.mkdir(titles[holiday])
+            os.chdir(titles[holiday])
+            save_imgs(holiday)
             print('//')
-            os.chdir('../../..')
+            os.chdir('..')
+        os.chdir('../..')
+
+
+def del_empty_dirs(path):
+    for d in os.listdir(path):
+        a = os.path.join(path, d)
+        if os.path.isdir(a):
+            del_empty_dirs(a)
+            if not os.listdir(a):
+                os.rmdir(a)
+                print(a, 'удалена')
 
 
 for dates_name in unique_dates:
@@ -67,8 +83,11 @@ for dates_name in unique_dates:
 
 unique_month = list(set(months))
 
-create_month_dir(unique_month)
-create_date_dir(unique_dates)
-create_holiday_dir_with_img(unique_dates)
 
+def run():
+    create_month_dir(unique_month)
+    create_date_dir(unique_dates)
+    create_holiday_dir_with_img(unique_dates)
+    del_empty_dirs(os.curdir)
+    print('End')
 

@@ -8,11 +8,17 @@ def save_imgs(url_ind):
     soup2 = BeautifulSoup(r2.text, 'html.parser')
     last_page_img = page_count(soup2)
     img_urls = []
-    for page_numb in range(1, last_page_img+1):
-        r3 = requests.get(f'{card_url}/page-{page_numb}')
-        soup3 = BeautifulSoup(r3.text, 'html.parser')
+    if last_page_img > 1:
+        for page_numb in range(1, last_page_img+1):
+            r3 = requests.get(f'{card_url}/page-{page_numb}')
+            soup3 = BeautifulSoup(r3.text, 'html.parser')
 
-        card = soup3.find_all('div', {'class': 'card-image'})
+            card = soup3.find_all('div', {'class': 'card-image'})
+
+            for card_img in card:
+                img_urls.append(card_img.find('a').get('href'))
+    else:
+        card = soup2.find_all('div', {'class': 'card-image'})
 
         for card_img in card:
             img_urls.append(card_img.find('a').get('href'))
@@ -32,6 +38,5 @@ def save_imgs(url_ind):
             img_name = f'{name_ind}{(str(img))[-4:]}'
             urllib.request.urlretrieve(img, img_name)
             name_ind += 1
-
 
 
