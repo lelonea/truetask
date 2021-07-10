@@ -131,4 +131,3 @@ def run():
     create_holiday_dir_with_img(unique_dates)
     del_empty_dirs(os.curdir)
     print('End')
-
