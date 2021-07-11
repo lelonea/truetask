@@ -1,4 +1,5 @@
 import urllib.request
+import os
 from parser import *
 
 
@@ -40,10 +41,13 @@ def save_imgs(url_ind):
         if url_container is None:
             pass
         else:
-            print(end='#')
             img = url_container.get('src')
             img_name = f'{name_ind}{(str(img))[-4:]}'
-            urllib.request.urlretrieve(img, img_name)
-            name_ind += 1
 
+            if os.path.exists(f'{os.getcwd()}/{img_name}'):
+                print(end='!')
+            else:
+                urllib.request.urlretrieve(img, img_name)
+                print(end='#')
+            name_ind += 1
 

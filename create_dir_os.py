@@ -1,7 +1,5 @@
-import os
 from saver import *
 from datetime import datetime
-
 
 unique_dates_not_sorted = list(set(dates))
 unique_dates = sorted(unique_dates_not_sorted)
@@ -63,7 +61,10 @@ def create_month_dir(month_list):
     :return: None
     """
     for month in month_list:
-        os.mkdir(month)
+        try:
+            os.mkdir(month)
+        except FileExistsError:
+            pass
 
 
 def create_date_dir(date_list):
@@ -74,7 +75,10 @@ def create_date_dir(date_list):
     """
     for date_name in date_list:
         os.chdir(find_month_name(date_name))
-        os.mkdir(date_name)
+        try:
+            os.mkdir(date_name)
+        except FileExistsError:
+            pass
         os.chdir('..')
 
 
@@ -88,7 +92,11 @@ def create_holiday_dir_with_img(date_list):
         os.chdir(find_month_name(date_name))
         os.chdir(date_name)
         for holiday in index_in_img(date_name):
-            os.mkdir(titles[holiday])
+            try:
+                os.mkdir(titles[holiday])
+            except FileExistsError:
+                pass
+
             os.chdir(titles[holiday])
             save_imgs(holiday)
             print('//')

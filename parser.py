@@ -58,5 +58,3 @@ for page_num in range(1, last_page+1):
     for product in products:
         url = product.get('href')
         cards_urls.append(url)
-
-
